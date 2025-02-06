@@ -30,25 +30,43 @@
                 "RoundRobin": [
                     { pair: "Ikhwan/Zalin", score: 11, points: 0 },
                     { pair: "Zaman/Haiqal", score: 21, points: 3 },
-                    { pair: "Zaim/Ben", score: 18, points: 0 }
+                    { pair: "Zaim/Ben", score: 18, points: 0 },
+                    { pair: "Arif/Radhi", score: 21, points: 3 },
+                    { pair: "Nuar/Yus", score: 20, points: 1 },
+                    { pair: "Isey/Ikram", score: 22, points: 2 }
                 ],
                 "Ranking": [
                     { player: "Zaman/Haiqal", totalPoints: 13, totalScore: 84, rank: 1 },
                     { player: "Zaim/Ben", totalPoints: 8, totalScore: 100, rank: 2 }
                 ],
-                "Knockout": {
-                    "QF": [
-                        { team1: "Zaman/Haiqal", score1: 21, team2: "Arif/Radhi", score2: 12 },
-                        { team1: "Isey/Radhi", score1: 21, team2: "Nuar/Yus", score2: 9 }
-                    ],
-                    "SF": [
-                        { team1: "Zaman/Fariq", score1: 30, team2: "Isey/Radhi", score2: 21 },
-                        { team1: "Nuar/Yus", score1: 30, team2: "Zaim/Ben", score2: 22 }
-                    ],
-                    "Final": { team1: "Zaman/Fariq", score1: 30, team2: "Zaim/Ben", score2: 26 }
-                },
                 "Champion": "Zaman/Fariq",
                 "RunnerUp": "Zaim/Ben"
+            },
+            "Tournament 2/2025": {
+                "RoundRobin": [
+                    { pair: "Nuar/Hadin", score: 13, points: 0 },
+                    { pair: "Ben/Aizat", score: 21, points: 3 },
+                    { pair: "Ikram/Zalin", score: 21, points: 3 }
+                ],
+                "Ranking": [
+                    { player: "Zaim/Ijat", totalPoints: 12, totalScore: 109, rank: 1 },
+                    { player: "Zaman/Ikhwan", totalPoints: 10, totalScore: 108, rank: 2 }
+                ],
+                "Champion": "Zaman/Ikhwan",
+                "RunnerUp": "Ben/Aizat"
+            },
+            "Tournament 3/2025": {
+                "RoundRobin": [
+                    { pair: "Aizat/Arif", score: 21, points: 3 },
+                    { pair: "Ijat/Nazmi", score: 13, points: 0 },
+                    { pair: "Ikhwan/Ben", score: 22, points: 2 }
+                ],
+                "Ranking": [
+                    { player: "Zaman/Nuar", totalPoints: 12, totalScore: 84, rank: 1 },
+                    { player: "Isey/Radhi", totalPoints: 9, totalScore: 79, rank: 2 }
+                ],
+                "Champion": "Zaman/Nuar",
+                "RunnerUp": "Isey/Radhi"
             }
         };
 
@@ -85,30 +103,12 @@
             });
             bracketHTML += `</table></div>`;
             
-            // Knockout Rounds
-            bracketHTML += `<div class='round'><h3>Knockout Stages</h3>`;
-            ["QF", "SF"].forEach(round => {
-                bracketHTML += `<h4>${round}</h4>`;
-                tournaments[tournament].Knockout[round].forEach(match => {
-                    bracketHTML += `<div class='match'>${match.team1} (${match.score1})<br>VS<br>${match.team2} (${match.score2})</div>`;
-                });
-            });
-            
-            // Grand Final
-            const final = tournaments[tournament].Knockout.Final;
-            bracketHTML += `<h3>Grand Final</h3>`;
-            bracketHTML += `<div class='match'>${final.team1} (${final.score1})<br>VS<br>${final.team2} (${final.score2})</div>`;
-            bracketHTML += `</div>`;
-            
             // Champion & Runner-Up
             bracketHTML += `<div class='winner'>🏆 Champion: ${tournaments[tournament].Champion} 🏆</div>`;
             bracketHTML += `<div class='winner'>🥈 Runner-Up: ${tournaments[tournament].RunnerUp} </div>`;
             
             bracketHTML += `</div>`;
             bracketContainer.innerHTML = bracketHTML;
-            
-            document.querySelectorAll(".tab").forEach(tab => tab.classList.remove("active"));
-            clickedTab.classList.add("active");
         }
 
         loadTabs();
