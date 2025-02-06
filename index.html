@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inter Tournament Bracket</title>
+    <title>LBCCL Tournament</title>
     <style>
         body { font-family: Arial, sans-serif; text-align: center; }
         .tabs { display: flex; justify-content: center; margin-bottom: 20px; }
@@ -20,28 +20,35 @@
     </style>
 </head>
 <body>
-    <h1>Inter Tournament Bracket</h1>
+    <h1>LBCCL Tournament</h1>
     <div class="tabs" id="tournamentTabs"></div>
     <div id="bracketContainer"></div>
 
     <script>
         const tournaments = {
-            "Inter-Tournament 1": {
+            "Tournament 1/2025": {
                 "RoundRobin": [
-                    { pair: "Ikhwan/Zalin", score: 21, points: 3 },
+                    { pair: "Ikhwan/Zalin", score: 11, points: 0 },
                     { pair: "Zaman/Haiqal", score: 21, points: 3 },
-                    { pair: "Zaim/Ben", score: 18, points: 2 }
+                    { pair: "Zaim/Ben", score: 18, points: 0 }
                 ],
                 "Ranking": [
-                    { player: "Zaman", totalPoints: 13, totalScore: 84, rank: 1 },
-                    { player: "Isey", totalPoints: 9, totalScore: 98, rank: 2 }
+                    { player: "Zaman/Haiqal", totalPoints: 13, totalScore: 84, rank: 1 },
+                    { player: "Zaim/Ben", totalPoints: 8, totalScore: 100, rank: 2 }
                 ],
-                "Semifinals": [
-                    { team1: "Zaman/Haiqal", score1: 21, team2: "Arif/Radhi", score2: 16 },
-                    { team1: "Nuar/Yus", score1: 14, team2: "Zaim/Ben", score2: 21 }
-                ],
-                "Grandfinal": { team1: "Zaman/Haiqal", score1: 21, team2: "Zaim/Ben", score2: 15 },
-                "Champion": "Zaman/Haiqal"
+                "Knockout": {
+                    "QF": [
+                        { team1: "Zaman/Haiqal", score1: 21, team2: "Arif/Radhi", score2: 12 },
+                        { team1: "Isey/Radhi", score1: 21, team2: "Nuar/Yus", score2: 9 }
+                    ],
+                    "SF": [
+                        { team1: "Zaman/Fariq", score1: 30, team2: "Isey/Radhi", score2: 21 },
+                        { team1: "Nuar/Yus", score1: 30, team2: "Zaim/Ben", score2: 22 }
+                    ],
+                    "Final": { team1: "Zaman/Fariq", score1: 30, team2: "Zaim/Ben", score2: 26 }
+                },
+                "Champion": "Zaman/Fariq",
+                "RunnerUp": "Zaim/Ben"
             }
         };
 
@@ -78,23 +85,24 @@
             });
             bracketHTML += `</table></div>`;
             
-            // Semifinals
-            bracketHTML += `<div class='round'><h3>Semifinals</h3>`;
-            tournaments[tournament].Semifinals.forEach(match => {
-                bracketHTML += `<div class='match'>${match.team1} (${match.score1})<br>VS<br>${match.team2} (${match.score2})</div>`;
+            // Knockout Rounds
+            bracketHTML += `<div class='round'><h3>Knockout Stages</h3>`;
+            ["QF", "SF"].forEach(round => {
+                bracketHTML += `<h4>${round}</h4>`;
+                tournaments[tournament].Knockout[round].forEach(match => {
+                    bracketHTML += `<div class='match'>${match.team1} (${match.score1})<br>VS<br>${match.team2} (${match.score2})</div>`;
+                });
             });
-            bracketHTML += `</div>`;
             
             // Grand Final
-            const final = tournaments[tournament].Grandfinal;
-            bracketHTML += `<div class='round'><h3>Grandfinal</h3>`;
+            const final = tournaments[tournament].Knockout.Final;
+            bracketHTML += `<h3>Grand Final</h3>`;
             bracketHTML += `<div class='match'>${final.team1} (${final.score1})<br>VS<br>${final.team2} (${final.score2})</div>`;
             bracketHTML += `</div>`;
             
-            // Champion
-            bracketHTML += `<div class='round'><h3>Champion</h3>`;
-            bracketHTML += `<div class='winner'>🏆 ${tournaments[tournament].Champion} 🏆</div>`;
-            bracketHTML += `</div>`;
+            // Champion & Runner-Up
+            bracketHTML += `<div class='winner'>🏆 Champion: ${tournaments[tournament].Champion} 🏆</div>`;
+            bracketHTML += `<div class='winner'>🥈 Runner-Up: ${tournaments[tournament].RunnerUp} </div>`;
             
             bracketHTML += `</div>`;
             bracketContainer.innerHTML = bracketHTML;
@@ -104,7 +112,7 @@
         }
 
         loadTabs();
-        displayBracket("Inter-Tournament 1", document.querySelector(".tab"));
+        displayBracket("Tournament 1/2025", document.querySelector(".tab"));
     </script>
 </body>
 </html>
