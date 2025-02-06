@@ -14,6 +14,9 @@
         .round { text-align: center; }
         .match { border: 2px solid black; padding: 10px; margin: 10px; display: inline-block; }
         .winner { background-color: lightgreen; font-weight: bold; padding: 10px; }
+        .ranking, .round-robin { margin-top: 20px; }
+        table { margin: auto; border-collapse: collapse; }
+        th, td { border: 1px solid black; padding: 5px; }
     </style>
 </head>
 <body>
@@ -24,28 +27,21 @@
     <script>
         const tournaments = {
             "Inter-Tournament 1": {
+                "RoundRobin": [
+                    { pair: "Ikhwan/Zalin", score: 21, points: 3 },
+                    { pair: "Zaman/Haiqal", score: 21, points: 3 },
+                    { pair: "Zaim/Ben", score: 18, points: 2 }
+                ],
+                "Ranking": [
+                    { player: "Zaman", totalPoints: 13, totalScore: 84, rank: 1 },
+                    { player: "Isey", totalPoints: 9, totalScore: 98, rank: 2 }
+                ],
                 "Semifinals": [
                     { team1: "Zaman/Haiqal", score1: 21, team2: "Arif/Radhi", score2: 16 },
                     { team1: "Nuar/Yus", score1: 14, team2: "Zaim/Ben", score2: 21 }
                 ],
                 "Grandfinal": { team1: "Zaman/Haiqal", score1: 21, team2: "Zaim/Ben", score2: 15 },
                 "Champion": "Zaman/Haiqal"
-            },
-            "Inter-Tournament 2": {
-                "Semifinals": [
-                    { team1: "Zaim/Ijat", score1: 16, team2: "Ben/Aizat", score2: 21 },
-                    { team1: "Zaman/Ikhwan", score1: 21, team2: "Ikram/Zalin", score2: 8 }
-                ],
-                "Grandfinal": { team1: "Ben/Aizat", score1: 18, team2: "Zaman/Ikhwan", score2: 21 },
-                "Champion": "Zaman/Ikhwan"
-            },
-            "Inter-Tournament 3": {
-                "Semifinals": [
-                    { team1: "Zaman/Nuar", score1: 21, team2: "Ijat/Nazmi", score2: 17 },
-                    { team1: "Aizat/Arif", score1: 11, team2: "Isey/Radhi", score2: 21 }
-                ],
-                "Grandfinal": { team1: "Zaman/Nuar", score1: 21, team2: "Isey/Radhi", score2: 16 },
-                "Champion": "Zaman/Nuar"
             }
         };
 
@@ -65,6 +61,22 @@
             bracketContainer.innerHTML = "";
             
             let bracketHTML = `<div class='bracket'>`;
+            
+            // Round Robin Results
+            bracketHTML += `<div class='round-robin'><h3>Round Robin Results</h3><table>`;
+            bracketHTML += `<tr><th>Pair</th><th>Score</th><th>Points</th></tr>`;
+            tournaments[tournament].RoundRobin.forEach(match => {
+                bracketHTML += `<tr><td>${match.pair}</td><td>${match.score}</td><td>${match.points}</td></tr>`;
+            });
+            bracketHTML += `</table></div>`;
+            
+            // Ranking
+            bracketHTML += `<div class='ranking'><h3>Ranking</h3><table>`;
+            bracketHTML += `<tr><th>Player</th><th>Total Points</th><th>Total Score</th><th>Rank</th></tr>`;
+            tournaments[tournament].Ranking.forEach(rank => {
+                bracketHTML += `<tr><td>${rank.player}</td><td>${rank.totalPoints}</td><td>${rank.totalScore}</td><td>${rank.rank}</td></tr>`;
+            });
+            bracketHTML += `</table></div>`;
             
             // Semifinals
             bracketHTML += `<div class='round'><h3>Semifinals</h3>`;
