@@ -3,36 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lepat Badminton Club</title>
+    <title>Lepat Badminton Club - Weekly Results</title>
     <style>
         body { font-family: Arial, sans-serif; text-align: center; }
+        .tabs { display: flex; justify-content: center; margin-bottom: 20px; }
+        .tab { padding: 10px 20px; cursor: pointer; border: 1px solid black; }
+        .tab:hover { background-color: #ddd; }
+        .active { background-color: #bbb; }
         table { width: 80%; margin: 20px auto; border-collapse: collapse; }
         th, td { border: 1px solid black; padding: 10px; }
         th { background-color: #f2f2f2; }
     </style>
 </head>
 <body>
-    <h1>Lepat Badminton Club - Match Results</h1>
-    <table>
-        <tr>
-            <th>Date</th>
-            <th>Player 1</th>
-            <th>Player 2</th>
-            <th>Score</th>
-        </tr>
-        <tr>
-            <td>2025-02-01</td>
-            <td>Ikhwan</td>
-            <td>Ikram</td>
-            <td>21-18</td>
-        </tr>
-        <tr>
-            <td>2025-02-01</td>
-            <td>Lah</td>
-            <td>Radhi</td>
-            <td>19-21</td>
-        </tr>
-    </table>
-    <p>More results coming soon...</p>
+    <h1>Lepat Badminton Club - Weekly Results</h1>
+    <div class="tabs" id="weekTabs"></div>
+    <div id="resultsTable"></div>
+
+    <script>
+        const matchData = {
+            WEEK_1: [
+                { player1: "Pair A", player2: "Pair B", score1: 17, score2: 82 },
+                { player1: "Pair C", player2: "Pair D", score1: 21, score2: 76 },
+                { player1: "Pair E", player2: "Pair F", score1: 21, score2: 82 }
+            ],
+            WEEK_2: [
+                { player1: "Player X", player2: "Player Y", score1: 19, score2: 21 },
+                { player1: "Player A", player2: "Player B", score1: 18, score2: 22 }
+            ]
+        };
+
+        function loadTabs() {
+            const tabsContainer = document.getElementById("weekTabs");
+            let index = 1;
+            for (let week in matchData) {
+                const tab = document.createElement("div");
+                tab.classList.add("tab");
+                tab.innerText = "Week " + index;
+                tab.onclick = () => displayResults(week, tab);
+                tabsContainer.appendChild(tab);
+                index++;
+            }
+        }
+
+        function displayResults(week, clickedTab) {
+            const resultsTable = document.getElementById("resultsTable");
+            resultsTable.innerHTML = "";
+            
+            const table = document.createElement("table");
+            let header = `<tr><th>Player 1</th><th>Player 2</th><th>Score 1</th><th>Score 2</th></tr>`;
+            table.innerHTML = header;
+            
+            matchData[week].forEach(match => {
+                let row = `<tr><td>${match.player1}</td><td>${match.player2}</td><td>${match.score1}</td><td>${match.score2}</td></tr>`;
+                table.innerHTML += row;
+            });
+            resultsTable.appendChild(table);
+            
+            document.querySelectorAll(".tab").forEach(tab => tab.classList.remove("active"));
+            clickedTab.classList.add("active");
+        }
+
+        loadTabs();
+        displayResults("WEEK_1", document.querySelector(".tab"));
+    </script>
 </body>
 </html>
