@@ -5,166 +5,166 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lepat BC Homeground</title>
     <style>
-        /* General Styles */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(to right, #2c3e50, #4ca1af);
+            background: #f4f4f4;
             color: #333;
             line-height: 1.6;
         }
 
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+        }
+
         h1 {
             text-align: center;
-            color: white;
+            color: #2c3e50;
             margin: 20px 0;
             font-size: 2.5rem;
         }
 
-        /* Tabs */
         .tabs {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
             margin-bottom: 20px;
+            background: #007bff;
+            padding: 10px;
+            border-radius: 5px;
         }
 
         .tab {
             padding: 10px 20px;
             cursor: pointer;
-            border: 1px solid white;
+            border: none;
             margin: 5px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 5px;
-            color: white;
-            transition: background 0.3s ease;
-        }
-
-        .tab:hover {
-            background: rgba(255, 255, 255, 0.4);
-        }
-
-        .tab.active {
-            background: rgba(255, 255, 255, 0.8);
-            color: #2c3e50;
-            font-weight: bold;
-        }
-
-        /* Table Styling */
-        table {
-            margin: 20px auto;
-            border-collapse: collapse;
-            width: 90%;
-            max-width: 800px;
             background: white;
+            color: #007bff;
+            font-weight: 600;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .tab:hover, .active {
+            background: #0056b3;
+            color: white;
+        }
+
+        .ranking-container {
+            background: white;
+            padding: 20px;
             border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
         }
 
         th, td {
             padding: 12px;
             text-align: center;
+            border-bottom: 1px solid #ddd;
         }
 
         th {
-            background: #2c3e50;
+            background: #007bff;
             color: white;
-            font-weight: bold;
         }
 
         tr:nth-child(even) {
-            background: #f4f4f4;
+            background: #f9f9f9;
         }
 
-        tr:hover {
-            background: #e0e0e0;
-        }
-
-        /* Responsive Design */
         @media (max-width: 768px) {
-            h1 {
-                font-size: 2rem;
+            .tabs {
+                flex-direction: column;
             }
 
             .tab {
-                padding: 8px 16px;
-                font-size: 0.9rem;
-            }
-
-            table {
-                width: 100%;
+                width: 90%;
             }
         }
     </style>
 </head>
 <body>
-    <h1>Lepat BC Homeground</h1>
-    <div class="tabs" id="tournamentTabs"></div>
-    <div id="bracketContainer"></div>
+    <div class="container">
+        <h1>Lepat BC Homeground</h1>
+        <div class="tabs" id="tournamentTabs"></div>
+        <div id="bracketContainer" class="ranking-container"></div>
+    </div>
 
     <script>
-        const tournaments = {
-            "Tournament 1/2025": {},
-            "Tournament 2/2025": {},
-            "Tournament 3/2025": {},
-            "All Time Ranking": {
-                "Ranking": [
-                    { player: "Zaman", sessionJoin: 3, points: 5100, rank: 1 },
-                    { player: "Nuar", sessionJoin: 3, points: 2980, rank: 2 },
-                    { player: "Ben", sessionJoin: 3, points: 2960, rank: 3 },
-                    { player: "Zaim", sessionJoin: 3, points: 2710, rank: 4 },
-                    { player: "Radhi", sessionJoin: 3, points: 2710, rank: 5 },
-                    { player: "Aizat", sessionJoin: 2, points: 2610, rank: 6 },
-                    { player: "Arif", sessionJoin: 2, points: 2360, rank: 7 },
-                    { player: "Ijat", sessionJoin: 2, points: 2360, rank: 8 },
-                    { player: "Ikhwan", sessionJoin: 3, points: 1900, rank: 9 },
-                    { player: "Haiqal", sessionJoin: 2, points: 1800, rank: 10 },
-                    { player: "Isey", sessionJoin: 2, points: 1530, rank: 11 },
-                    { player: "Zalin", sessionJoin: 2, points: 1280, rank: 12 },
-                    { player: "Yus", sessionJoin: 2, points: 1280, rank: 13 },
-                    { player: "Ikram", sessionJoin: 2, points: 1280, rank: 14 },
-                    { player: "Nazmi", sessionJoin: 1, points: 1180, rank: 15 },
-                    { player: "Lah", sessionJoin: 2, points: 200, rank: 16 },
-                    { player: "Hadin", sessionJoin: 1, points: 100, rank: 17 }
-                ]
-            }
-        };
-
-        function loadTabs() {
-            const tabsContainer = document.getElementById("tournamentTabs");
-            for (let tournament in tournaments) {
-                const tab = document.createElement("div");
-                tab.classList.add("tab");
-                tab.innerText = tournament;
-                tab.onclick = () => {
-                    // Remove active class from all tabs
-                    document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-                    // Add active class to the clicked tab
-                    tab.classList.add("active");
-                    displayBracket(tournament);
-                };
-                tabsContainer.appendChild(tab);
-            }
+    const tournaments = {
+        "Tournament 1/2025": {},
+        "Tournament 2/2025": {},
+        "Tournament 3/2025": {},
+        "All Time Ranking": {
+            "Ranking": [
+                { rank: 1, player: "Zaman", sessionJoin: 3, points: 5100 },
+                { rank: 2, player: "Nuar", sessionJoin: 3, points: 2980 },
+                { rank: 3, player: "Ben", sessionJoin: 3, points: 2960 },
+                { rank: 4, player: "Zaim", sessionJoin: 3, points: 2710 },
+                { rank: 5, player: "Radhi", sessionJoin: 3, points: 2710 },
+                { rank: 6, player: "Aizat", sessionJoin: 2, points: 2610 },
+                { rank: 7, player: "Arif", sessionJoin: 2, points: 2360 },
+                { rank: 8, player: "Ijat", sessionJoin: 2, points: 2360 },
+                { rank: 9, player: "Ikhwan", sessionJoin: 3, points: 1900 },
+                { rank: 10, player: "Haiqal", sessionJoin: 2, points: 1800 },
+                { rank: 11, player: "Isey", sessionJoin: 2, points: 1530 },
+                { rank: 12, player: "Zalin", sessionJoin: 2, points: 1280 },
+                { rank: 13, player: "Yus", sessionJoin: 2, points: 1280 },
+                { rank: 14, player: "Ikram", sessionJoin: 2, points: 1280 },
+                { rank: 15, player: "Nazmi", sessionJoin: 1, points: 1180 },
+                { rank: 16, player: "Lah", sessionJoin: 2, points: 200 },
+                { rank: 17, player: "Hadin", sessionJoin: 1, points: 100 }
+            ]
         }
+    };
 
-        function displayBracket(tournament) {
-            const bracketContainer = document.getElementById("bracketContainer");
-            bracketContainer.innerHTML = "";
-            if (tournament === "All Time Ranking") {
-                let rankingHTML = `<div class='ranking'><h3>All Time Ranking</h3><table>`;
-                rankingHTML += `<tr><th>Rank</th><th>Player</th><th>Session Join</th><th>Points</th></tr>`;
-                tournaments[tournament].Ranking.forEach(rank => {
-                    rankingHTML += `<tr><td>${rank.rank}</td><td>${rank.player}</td><td>${rank.sessionJoin}</td><td>${rank.points}</td></tr>`;
-                });
-                rankingHTML += `</table></div>`;
-                bracketContainer.innerHTML = rankingHTML;
-            }
+    function loadTabs() {
+        const tabsContainer = document.getElementById("tournamentTabs");
+        for (let tournament in tournaments) {
+            const tab = document.createElement("button");
+            tab.classList.add("tab");
+            tab.innerText = tournament;
+            tab.onclick = () => displayBracket(tournament);
+            tabsContainer.appendChild(tab);
         }
+    }
 
-        loadTabs();
-        displayBracket("All Time Ranking");
-    </script>
+    function displayBracket(tournament) {
+        const bracketContainer = document.getElementById("bracketContainer");
+        bracketContainer.innerHTML = "";
+
+        if (tournament === "All Time Ranking") {
+            let rankingHTML = `<h2>All Time Ranking</h2><table>`;
+            rankingHTML += `<tr><th>Rank</th><th>Player</th><th>Session Join</th><th>Points</th></tr>`;
+            
+            tournaments[tournament].Ranking.forEach(rank => {
+                rankingHTML += `<tr>
+                    <td>${rank.rank}</td>
+                    <td>${rank.player}</td>
+                    <td>${rank.sessionJoin}</td>
+                    <td>${rank.points}</td>
+                </tr>`;
+            });
+
+            rankingHTML += `</table>`;
+            bracketContainer.innerHTML = rankingHTML;
+        }
+    }
+
+    loadTabs();
+    displayBracket("Tournament 1/2025");
+</script>
+
 </body>
 </html>
