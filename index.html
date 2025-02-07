@@ -160,6 +160,12 @@
             <div class="dropdown-item" data-tournament="Tournament 2/2025">Tournament 2/2025</div>
             <div class="dropdown-item" data-tournament="Tournament 3/2025">Tournament 3/2025</div>
         </div>
+        <div class="tab" id="leagueTab">League</div>
+        <div class="dropdown" id="leagueDropdown">
+            <div class="dropdown-item" data-league="Week 1">Week 1</div>
+            <div class="dropdown-item" data-league="Week 2">Week 2</div>
+            <div class="dropdown-item" data-league="Week 3">Week 3</div>
+        </div>
     </div>
     <div id="bracketContainer"></div>
 
@@ -200,25 +206,40 @@
         const allTimeRankingTab = document.getElementById("allTimeRankingTab");
         const tournamentTab = document.getElementById("tournamentTab");
         const tournamentDropdown = document.getElementById("tournamentDropdown");
+        const leagueTab = document.getElementById("leagueTab");
+        const leagueDropdown = document.getElementById("leagueDropdown");
         const bracketContainer = document.getElementById("bracketContainer");
 
         // Add event listeners
         allTimeRankingTab.addEventListener("click", () => {
             setActiveTab(allTimeRankingTab);
             displayBracket("All Time Ranking");
-            hideDropdown();
+            hideDropdowns();
         });
 
         tournamentTab.addEventListener("click", () => {
             setActiveTab(tournamentTab);
-            toggleDropdown();
+            toggleDropdown(tournamentDropdown);
+        });
+
+        leagueTab.addEventListener("click", () => {
+            setActiveTab(leagueTab);
+            toggleDropdown(leagueDropdown);
         });
 
         tournamentDropdown.querySelectorAll(".dropdown-item").forEach(item => {
             item.addEventListener("click", () => {
                 const tournament = item.getAttribute("data-tournament");
                 displayBracket(tournament);
-                hideDropdown();
+                hideDropdowns();
+            });
+        });
+
+        leagueDropdown.querySelectorAll(".dropdown-item").forEach(item => {
+            item.addEventListener("click", () => {
+                const league = item.getAttribute("data-league");
+                displayBracket(league);
+                hideDropdowns();
             });
         });
 
@@ -228,30 +249,32 @@
             activeTab.classList.add("active");
         }
 
-        function toggleDropdown() {
-            if (tournamentDropdown.style.display === "flex") {
-                hideDropdown();
+        function toggleDropdown(dropdown) {
+            if (dropdown.style.display === "flex") {
+                dropdown.style.display = "none";
             } else {
-                tournamentDropdown.style.display = "flex";
+                hideDropdowns();
+                dropdown.style.display = "flex";
             }
         }
 
-        function hideDropdown() {
+        function hideDropdowns() {
             tournamentDropdown.style.display = "none";
+            leagueDropdown.style.display = "none";
         }
 
-        function displayBracket(tournament) {
+        function displayBracket(content) {
             bracketContainer.innerHTML = "";
-            if (tournament === "All Time Ranking") {
+            if (content === "All Time Ranking") {
                 let rankingHTML = `<div class='ranking'><table>`;
                 rankingHTML += `<tr><th>Rank</th><th>Player</th><th>Session Join</th><th>Points</th></tr>`;
-                tournaments[tournament].Ranking.forEach(rank => {
+                tournaments[content].Ranking.forEach(rank => {
                     rankingHTML += `<tr><td>${rank.rank}</td><td>${rank.player}</td><td>${rank.sessionJoin}</td><td>${rank.points}</td></tr>`;
                 });
                 rankingHTML += `</table></div>`;
                 bracketContainer.innerHTML = rankingHTML;
             } else {
-                bracketContainer.innerHTML = `<p>No data available for this tournament.</p>`;
+                bracketContainer.innerHTML = `<p>No data available for ${content}.</p>`;
             }
         }
 
