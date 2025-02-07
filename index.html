@@ -9,10 +9,13 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
-            padding: 20px; /* Added padding for mobile */
+            padding: 20px;
             background: linear-gradient(to right, #2c3e50, #4ca1af);
             color: #333;
             line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
         h1 {
@@ -51,12 +54,32 @@
             font-weight: bold;
         }
 
+        /* Dropdown */
+        .dropdown {
+            display: none;
+            flex-direction: column;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+
+        .dropdown-item {
+            padding: 10px 20px;
+            cursor: pointer;
+            color: white;
+            transition: background 0.3s ease;
+        }
+
+        .dropdown-item:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
         /* Table Styling */
         table {
             margin: 20px auto;
             border-collapse: collapse;
-            width: 100%; /* Full width on mobile */
-            max-width: 800px; /* Limits width on larger screens */
+            width: 100%;
+            max-width: 800px;
             background: white;
             border-radius: 10px;
             overflow: hidden;
@@ -82,32 +105,68 @@
             background: #e0e0e0;
         }
 
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            color: white;
+            margin-top: auto;
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             h1 {
-                font-size: 2rem; /* Smaller font size for mobile */
+                font-size: 2rem;
             }
 
             .tab {
                 padding: 8px 16px;
-                font-size: 0.9rem; /* Smaller font size for tabs */
+                font-size: 0.9rem;
             }
 
             table {
-                width: 100%; /* Full width on mobile */
-                font-size: 0.9rem; /* Smaller font size for table */
+                width: 100%;
+                font-size: 0.9rem;
             }
 
             th, td {
-                padding: 10px; /* Smaller padding for mobile */
+                padding: 10px;
+            }
+
+            footer {
+                font-size: 0.8rem;
             }
         }
     </style>
 </head>
 <body>
     <h1>Lepat BC Homeground</h1>
-    <div class="tabs" id="tournamentTabs"></div>
+    <div class="tabs" id="tournamentTabs">
+        <div class="tab" id="allTimeRankingTab">All Time Ranking</div>
+        <div class="tab" id="tournamentTab">Tournament</div>
+        <div class="dropdown" id="tournamentDropdown">
+            <div class="dropdown-item" data-tournament="Tournament 1/2025">Tournament 1/2025</div>
+            <div class="dropdown-item" data-tournament="Tournament 2/2025">Tournament 2/2025</div>
+            <div class="dropdown-item" data-tournament="Tournament 3/2025">Tournament 3/2025</div>
+        </div>
+    </div>
     <div id="bracketContainer"></div>
+
+    <!-- Footer -->
+    <footer>
+        © 2024 Developed and Built by Radhi. All rights reserved. The content of this website belongs to Lepat Badminton Club. Just for fun! :)
+    </footer>
 
     <script>
         const tournaments = {
@@ -137,25 +196,51 @@
             }
         };
 
-        function loadTabs() {
-            const tabsContainer = document.getElementById("tournamentTabs");
-            for (let tournament in tournaments) {
-                const tab = document.createElement("div");
-                tab.classList.add("tab");
-                tab.innerText = tournament;
-                tab.onclick = () => {
-                    // Remove active class from all tabs
-                    document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-                    // Add active class to the clicked tab
-                    tab.classList.add("active");
-                    displayBracket(tournament);
-                };
-                tabsContainer.appendChild(tab);
+        // Get DOM elements
+        const allTimeRankingTab = document.getElementById("allTimeRankingTab");
+        const tournamentTab = document.getElementById("tournamentTab");
+        const tournamentDropdown = document.getElementById("tournamentDropdown");
+        const bracketContainer = document.getElementById("bracketContainer");
+
+        // Add event listeners
+        allTimeRankingTab.addEventListener("click", () => {
+            setActiveTab(allTimeRankingTab);
+            displayBracket("All Time Ranking");
+            hideDropdown();
+        });
+
+        tournamentTab.addEventListener("click", () => {
+            setActiveTab(tournamentTab);
+            toggleDropdown();
+        });
+
+        tournamentDropdown.querySelectorAll(".dropdown-item").forEach(item => {
+            item.addEventListener("click", () => {
+                const tournament = item.getAttribute("data-tournament");
+                displayBracket(tournament);
+                hideDropdown();
+            });
+        });
+
+        // Functions
+        function setActiveTab(activeTab) {
+            document.querySelectorAll(".tab").forEach(tab => tab.classList.remove("active"));
+            activeTab.classList.add("active");
+        }
+
+        function toggleDropdown() {
+            if (tournamentDropdown.style.display === "flex") {
+                hideDropdown();
+            } else {
+                tournamentDropdown.style.display = "flex";
             }
         }
 
+        function hideDropdown() {
+            tournamentDropdown.style.display = "none";
+        }
+
         function displayBracket(tournament) {
-            const bracketContainer = document.getElementById("bracketContainer");
             bracketContainer.innerHTML = "";
             if (tournament === "All Time Ranking") {
                 let rankingHTML = `<div class='ranking'><table>`;
@@ -165,15 +250,14 @@
                 });
                 rankingHTML += `</table></div>`;
                 bracketContainer.innerHTML = rankingHTML;
+            } else {
+                bracketContainer.innerHTML = `<h3>${tournament}</h3><p>No data available for this tournament.</p>`;
             }
         }
 
-        loadTabs();
+        // Initialize
+        setActiveTab(allTimeRankingTab);
         displayBracket("All Time Ranking");
     </script>
-    
-    <footer style="text-align: center; padding: 10px; margin-top: 20px; font-size: 14px; color: white;">
-        &copy; 2024 Developed and Built by Radhi. All rights reserved. The content of this website belongs to Lepat Badminton Club. Just for fun! :)
-    </footer>
 </body>
 </html>
