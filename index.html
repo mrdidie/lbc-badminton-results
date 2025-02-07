@@ -31,41 +31,29 @@
 
     <script>
         const tournaments = {
-            "Tournament 1/2025": {
-                "RoundRobin": [
-                    { pair: "Ikhwan/Zalin", score: 11, points: 0 },
-                    { pair: "Zaman/Haiqal", score: 21, points: 3 },
-                    { pair: "Zaim/Ben", score: 18, points: 0 },
-                    { pair: "Arif/Radhi", score: 21, points: 3 },
-                    { pair: "Nuar/Yus", score: 20, points: 1 },
-                    { pair: "Isey/Ikram", score: 22, points: 2 },
-                    { pair: "Ikhwan/Zalin", score: 21, points: 3 },
-                    { pair: "Zaman/Haiqal", score: 21, points: 3 },
-                    { pair: "Arif/Radhi", score: 18, points: 0 },
-                    { pair: "Isey/Ikram", score: 20, points: 1 }
-                ],
+            "Tournament 1/2025": { /* Existing tournament data */ },
+            "Tournament 2/2025": { /* Existing tournament data */ },
+            "Tournament 3/2025": { /* Existing tournament data */ },
+            "All Time Ranking": {
                 "Ranking": [
-                    { player: "Zaman/Haiqal", totalPoints: 13, totalScore: 84, rank: 1 },
-                    { player: "Zaim/Ben", totalPoints: 8, totalScore: 100, rank: 2 },
-                    { player: "Isey/Ikram", totalPoints: 9, totalScore: 98, rank: 3 },
-                    { player: "Ikhwan/Zalin", totalPoints: 8, totalScore: 85, rank: 4 },
-                    { player: "Nuar/Yus", totalPoints: 4, totalScore: 79, rank: 5 },
-                    { player: "Arif/Radhi", totalPoints: 3, totalScore: 81, rank: 6 }
-                ],
-                "Knockout": {
-                    "QF": [
-                        { team1: "Zaman/Haiqal", score1: 21, team2: "Arif/Radhi", score2: 17 },
-                        { team1: "Isey/Ikram", score1: 12, team2: "Nuar/Yus", score2: 12 },
-                        { team1: "Zaim/Ben", score1: 21, team2: "Ikhwan/Zalin", score2: 14 }
-                    ],
-                    "SF": [
-                        { team1: "Zaman/Fariq", score1: 30, team2: "Isey/Radhi", score2: 21 },
-                        { team1: "Nuar/Yus", score1: 30, team2: "Zaim/Ben", score2: 22 }
-                    ],
-                    "Final": { team1: "Zaman/Fariq", score1: 30, team2: "Zaim/Ben", score2: 26 }
-                },
-                "Champion": "Zaman/Fariq",
-                "RunnerUp": "Zaim/Ben"
+                    { player: "Zaman", sessionJoin: 3, points: 5100, rank: 1 },
+                    { player: "Nuar", sessionJoin: 3, points: 2980, rank: 2 },
+                    { player: "Ben", sessionJoin: 3, points: 2960, rank: 3 },
+                    { player: "Zaim", sessionJoin: 3, points: 2710, rank: 4 },
+                    { player: "Radhi", sessionJoin: 3, points: 2710, rank: 5 },
+                    { player: "Aizat", sessionJoin: 2, points: 2610, rank: 6 },
+                    { player: "Arif", sessionJoin: 2, points: 2360, rank: 7 },
+                    { player: "Ijat", sessionJoin: 2, points: 2360, rank: 8 },
+                    { player: "Ikhwan", sessionJoin: 2, points: 1900, rank: 9 },
+                    { player: "Haiqal", sessionJoin: 2, points: 1800, rank: 10 },
+                    { player: "Isey", sessionJoin: 2, points: 1530, rank: 11 },
+                    { player: "Zalin", sessionJoin: 2, points: 1280, rank: 12 },
+                    { player: "Yus", sessionJoin: 2, points: 1280, rank: 13 },
+                    { player: "Ikram", sessionJoin: 2, points: 1280, rank: 14 },
+                    { player: "Nazmi", sessionJoin: 2, points: 1180, rank: 15 },
+                    { player: "Lah", sessionJoin: 2, points: 200, rank: 16 },
+                    { player: "Hadin", sessionJoin: 1, points: 100, rank: 17 }
+                ]
             }
         };
 
@@ -84,30 +72,25 @@
             const bracketContainer = document.getElementById("bracketContainer");
             bracketContainer.innerHTML = "";
             
-            let bracketHTML = `<div class='bracket'>`;
-            
-            // Round Robin Results
-            bracketHTML += `<div class='round-robin'><h3>Round Robin Results</h3><table>`;
-            bracketHTML += `<tr><th>Pair</th><th>Score</th><th>Points</th></tr>`;
-            tournaments[tournament].RoundRobin.forEach(match => {
-                bracketHTML += `<tr><td>${match.pair}</td><td>${match.score}</td><td>${match.points}</td></tr>`;
-            });
-            bracketHTML += `</table></div>`;
-            
-            // Ranking
-            bracketHTML += `<div class='ranking'><h3>Ranking</h3><table>`;
-            bracketHTML += `<tr><th>Player</th><th>Total Points</th><th>Total Score</th><th>Rank</th></tr>`;
-            tournaments[tournament].Ranking.forEach(rank => {
-                bracketHTML += `<tr><td>${rank.player}</td><td>${rank.totalPoints}</td><td>${rank.totalScore}</td><td>${rank.rank}</td></tr>`;
-            });
-            bracketHTML += `</table></div>`;
-            
-            // Champion & Runner-Up
-            bracketHTML += `<div class='winner'>🏆 Champion: ${tournaments[tournament].Champion} 🏆</div>`;
-            bracketHTML += `<div class='winner'>🥈 Runner-Up: ${tournaments[tournament].RunnerUp} </div>`;
-            
-            bracketHTML += `</div>`;
-            bracketContainer.innerHTML = bracketHTML;
+            if (tournament === "All Time Ranking") {
+                let rankingHTML = `<div class='ranking'><h3>All Time Ranking</h3><table>`;
+                rankingHTML += `<tr><th>Rank</th><th>Player</th><th>Session Join</th><th>Points</th></tr>`;
+                tournaments[tournament].Ranking.forEach(rank => {
+                    rankingHTML += `<tr><td>${rank.rank}</td><td>${rank.player}</td><td>${rank.sessionJoin}</td><td>${rank.points}</td></tr>`;
+                });
+                rankingHTML += `</table></div>`;
+                bracketContainer.innerHTML = rankingHTML;
+            } else {
+                let bracketHTML = `<div class='bracket'>`;
+                bracketHTML += `<div class='round-robin'><h3>Round Robin Results</h3><table>`;
+                bracketHTML += `<tr><th>Pair</th><th>Score</th><th>Points</th></tr>`;
+                tournaments[tournament].RoundRobin.forEach(match => {
+                    bracketHTML += `<tr><td>${match.pair}</td><td>${match.score}</td><td>${match.points}</td></tr>`;
+                });
+                bracketHTML += `</table></div>`;
+                bracketHTML += `</div>`;
+                bracketContainer.innerHTML = bracketHTML;
+            }
         }
 
         loadTabs();
