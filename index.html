@@ -5,20 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lepat BC Homeground</title>
     <style>
+        /* General Styles */
         body {
-            font-family: Arial, sans-serif;
-            text-align: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
             background: linear-gradient(to right, #2c3e50, #4ca1af);
-            color: white;
+            color: #333;
+            line-height: 1.6;
         }
+
+        h1 {
+            text-align: center;
+            color: white;
+            margin: 20px 0;
+            font-size: 2.5rem;
+        }
+
+        /* Tabs */
         .tabs {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
             margin-bottom: 20px;
         }
+
         .tab {
             padding: 10px 20px;
             cursor: pointer;
@@ -26,35 +37,65 @@
             margin: 5px;
             background: rgba(255, 255, 255, 0.2);
             border-radius: 5px;
+            color: white;
+            transition: background 0.3s ease;
         }
+
         .tab:hover {
             background: rgba(255, 255, 255, 0.4);
         }
-        .active {
-            background: rgba(255, 255, 255, 0.6);
+
+        .tab.active {
+            background: rgba(255, 255, 255, 0.8);
+            color: #2c3e50;
+            font-weight: bold;
         }
-        .bracket {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            margin-top: 20px;
-        }
-        .ranking, .round-robin {
-            margin-top: 20px;
-        }
+
+        /* Table Styling */
         table {
-            margin: auto;
+            margin: 20px auto;
             border-collapse: collapse;
-            width: 100%;
-            max-width: 600px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 5px;
+            width: 90%;
+            max-width: 800px;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
+
         th, td {
-            border: 1px solid white;
-            padding: 10px;
+            padding: 12px;
             text-align: center;
+        }
+
+        th {
+            background: #2c3e50;
             color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background: #f4f4f4;
+        }
+
+        tr:hover {
+            background: #e0e0e0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .tab {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+
+            table {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -97,7 +138,13 @@
                 const tab = document.createElement("div");
                 tab.classList.add("tab");
                 tab.innerText = tournament;
-                tab.onclick = () => displayBracket(tournament, tab);
+                tab.onclick = () => {
+                    // Remove active class from all tabs
+                    document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+                    // Add active class to the clicked tab
+                    tab.classList.add("active");
+                    displayBracket(tournament);
+                };
                 tabsContainer.appendChild(tab);
             }
         }
@@ -117,7 +164,7 @@
         }
 
         loadTabs();
-        displayBracket("Tournament 1/2025");
+        displayBracket("All Time Ranking");
     </script>
 </body>
 </html>
