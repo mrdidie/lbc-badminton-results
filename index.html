@@ -158,7 +158,7 @@
             const bracketContainer = document.getElementById("bracketContainer");
             bracketContainer.innerHTML = "";
             if (tournament === "All Time Ranking") {
-                let rankingHTML = `<div class='ranking'><h3><white>All Time Ranking</white></h3><table>`;
+                let rankingHTML = `<div class='ranking'><table>`;
                 rankingHTML += `<tr><th>Rank</th><th>Player</th><th>Session Join</th><th>Points</th></tr>`;
                 tournaments[tournament].Ranking.forEach(rank => {
                     rankingHTML += `<tr><td>${rank.rank}</td><td>${rank.player}</td><td>${rank.sessionJoin}</td><td>${rank.points}</td></tr>`;
