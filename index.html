@@ -314,7 +314,7 @@
 
     if (content === "All Time Ranking") {
         // Display All Time Ranking
-        let rankingHTML = `<div class='ranking'><h3>All Time Ranking</h3><table>`;
+        let rankingHTML = `<div class='ranking'><table>`;
         rankingHTML += `<tr><th>Rank</th><th>Player</th><th>Session Join</th><th>Points</th></tr>`;
         tournaments[content].Ranking.forEach(rank => {
             rankingHTML += `<tr><td>${rank.rank}</td><td>${rank.player}</td><td>${rank.sessionJoin}</td><td>${rank.points}</td></tr>`;
