@@ -310,19 +310,37 @@
         }
 
         function displayBracket(content) {
-            bracketContainer.innerHTML = "";
-            if (content === "All Time Ranking") {
-                let rankingHTML = `<div class='ranking'><table>`;
-                rankingHTML += `<tr><th>Rank</th><th>Player</th><th>Session Join</th><th>Points</th></tr>`;
-                tournaments[content].Ranking.forEach(rank => {
-                    rankingHTML += `<tr><td>${rank.rank}</td><td>${rank.player}</td><td>${rank.sessionJoin}</td><td>${rank.points}</td></tr>`;
-                });
-                rankingHTML += `</table></div>`;
-                bracketContainer.innerHTML = rankingHTML;
-            } else {
-                bracketContainer.innerHTML = `<p>No data available for ${content}.</p>`;
-            }
-        }
+    bracketContainer.innerHTML = ""; // Clear the container
+
+    if (content === "All Time Ranking") {
+        // Display All Time Ranking
+        let rankingHTML = `<div class='ranking'><h3>All Time Ranking</h3><table>`;
+        rankingHTML += `<tr><th>Rank</th><th>Player</th><th>Session Join</th><th>Points</th></tr>`;
+        tournaments[content].Ranking.forEach(rank => {
+            rankingHTML += `<tr><td>${rank.rank}</td><td>${rank.player}</td><td>${rank.sessionJoin}</td><td>${rank.points}</td></tr>`;
+        });
+        rankingHTML += `</table></div>`;
+        bracketContainer.innerHTML = rankingHTML;
+    } else if (tournaments[content]) {
+        // Display Tournament Data
+        let tournamentHTML = `<div class='tournament'><h3>${content}</h3><table>`;
+        tournamentHTML += `<tr><th>Player</th><th>Total Points</th><th>Total Score</th><th>Match Play</th><th>Stage Points</th></tr>`;
+        tournaments[content]["Round Robin"].forEach(player => {
+            tournamentHTML += `<tr>
+                <td>${player.player}</td>
+                <td>${player.totalPoints}</td>
+                <td>${player.totalScore}</td>
+                <td>${player.matchPlay}</td>
+                <td>${player.stagePoints}</td>
+            </tr>`;
+        });
+        tournamentHTML += `</table></div>`;
+        bracketContainer.innerHTML = tournamentHTML;
+    } else {
+        // Display a message if no data is available
+        bracketContainer.innerHTML = `<p>No data available for ${content}.</p>`;
+    }
+}
 
         // Initialize
         setActiveTab(allTimeRankingTab);
