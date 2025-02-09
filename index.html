@@ -323,7 +323,7 @@
         bracketContainer.innerHTML = rankingHTML;
     } else if (tournaments[content]) {
         // Display Tournament Data
-        let tournamentHTML = `<div class='tournament'><h3>${content}</h3><table>`;
+        let tournamentHTML = `<div class='tournament'><center><h3>${content}</h3></center><table>`;
         tournamentHTML += `<tr><th>Player</th><th>Total Points</th><th>Total Score</th><th>Match Play</th><th>Stage Points</th></tr>`;
         tournaments[content]["Round Robin"].forEach(player => {
             tournamentHTML += `<tr>
